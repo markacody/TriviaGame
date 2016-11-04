@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Trivia Game</title>
+	<!-- Link to the jQuery Library -->
+  	<script src="https://code.jquery.com/jquery-2.2.3.js" integrity="sha256-laXWtGydpwqJ8JA+X9x2miwmaiKhn8tVmOVEigRNtP4=" crossorigin="anonymous"></script>
+  	<!-- Link to local script -->
+  	<script src="assets/javascript/game.js"></script>
+	<!-- Link to Bootstrap CDN-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<header class="jumbotron">
+  <div class="container"><h1>Totally Trivial Trivia!</h1></div>
+</header>
+<main class="container">
+  <section class="row timer">
+    <div class="col-sm-12">
+      
+      <p>Time Remaining: <span class="counter"></span> Seconds</p>
+    </div>
+  </section>
+  <section class="row gameboard">
+    <div class="col-sm-12">
+      <p class="question">This is the question.</p>
+      <div class="responses">
+        <p>This is a response.</p>
+      </div>
+    </div>
+    <div class="row">
+    	<div class="col-sm-12">
+    		<p class="btn btn-default">Restart Game</p>
+    	</div>
+    </div>
+  </section>
+</main>
+</body>
+</html>
