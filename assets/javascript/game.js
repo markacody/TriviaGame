@@ -27,7 +27,7 @@ var count = 30;
     } /*END define the countDown function */
     // Define variables to identify the current question, correct answer, and the end of the quiz
     var currentQuestion = 0;
-    var correctAnswer = 0;
+    var correctAnswers = 0;
     var endQuiz = false;
     // Define an object with questions and answers. Use an array to contain answers and to identify the correct one.
     var questions = [{
@@ -50,11 +50,16 @@ var count = 30;
             question: "What is the nearest galaxy?",
             choices: ["Gynomastia", "Herculania", "Andromeda", "Achilles"],
             correctAnswer: 2
-        }]; /*END OF questions OBJECT */
+        }]; /*END OF questions ARRAY of OBJECTS */
     //display the first question
     displayCurrentQuestion();
+   
     //define the display current questions function
     function displayCurrentQuestion() {
+        //clear the timeout between questions.
+        clearTimeout(stop);
+        // call the countDown function.
+        countDown();
         //create variables in memory to handle the question, where to put the question, and the choices
         var question = questions[currentQuestion].question;
         var questionClass = $(".question");
@@ -72,41 +77,87 @@ var count = 30;
             choice = questions[currentQuestion].choices[i];
             $('<li><input type="radio" value=' + i + '/>' + choice + '</li>').appendTo(".responses");
         }
-        //call the countdown function    
-        countDown();
+        //I used to call the countDown function here
     }
     // Define the timeout function
     function timeOut(){    
-    // display the timeout message.
+        // display the timeout message.
         $(".timeout").html("<p>You timed out. The next question will begin in three seconds.</p>");
-    // after three seconds call for the next question.
+        // after three seconds call for the next question.
+        clearInterval(counter);
         currentQuestion++;
-        setTimeout(displayCurrentQuestion, 3000);
-        return;
+        if (currentQuestion <= 4) {
+            var stop = setTimeout(displayCurrentQuestion, 3000);
+        } else if (currentQuestion > 4) {
+            endQuiz=true;
+            displayScore();
+        } else {
+            restart();
+        }
     }
-    // Define the correct answer function.
+        // Define the correct answer function.
     function correct(){
-    // display celebration
+        // display celebration
          $(".correct").html("<p>That's right! The next question will begin in three seconds.</p>");
-    // after three seconds call for the next question.
+        // after three seconds call for the next question.
+        clearInterval(counter);
+        correctAnswers++;
         currentQuestion++;
-        setTimeout(displayCurrentQuestion, 3000);
-        return;
+        if (currentQuestion <= 4) {
+            var stop = setTimeout(displayCurrentQuestion, 3000);
+        } else if (currentQuestion > 4) {
+            endQuiz=true;
+            displayScore();
+        } else {
+            restart();
+        }
     }
     // Define the wrong answer function.
     function incorrect(){
-    // display anti-celebration
+        // display anti-celebration
         $(".incorrect").html("<p>That's incorrect. The next question will begin in three seconds.</p>");
-    // after three seconds call for the next question
+        // after three seconds call for the next question
+        clearInterval(counter);
         currentQuestion++;
-        setTimeout(displayCurrentQuestion, 3000);
-        return;
+        if (currentQuestion <= 4) {
+            var stop = setTimeout(displayCurrentQuestion, 3000);
+        } else if (currentQuestion > 4) {
+            endQuiz=true;
+            displayScore();
+        } else {
+            restart();
+        }
     }
     // Listen to and judge the responses.
+    $(".responses").on("click", function(){
+        if(endQuiz=true){
+            //create a variable in memory to read the value of the clicked item. Find the input tag with the state checked and get the value, which matches the index in the array of choices.
+            var value = $("input[type='radio']:checked").val();
+            if (value == questions[currentQuestion].correctAnswer) {
+                correct();
+            } else if (value !== questions[currentQuestion].correctAnswer) {
+                incorrect();
+            } else {
+                $(document).find(".quizMessage").text("Please select an answer");
+            }
+        } else {
+            displayScore();
+        }
+    });
     
-    
-    // Detect and announce the end of the game.
-    
+    // Announce the end of the game and display score.
+    function displayScore() {
+        $(".message").text("Game Over! You scored: " + correctAnswers + " out of " + questions.length);
+        $(".message").show();
+    }
+    //Allow user to restart    
+    function restart() {
+        currentQuestion = 0;
+        correctAnswers = 0;
+        $(document).find(".result").hide();
+        displayCurrentQuestion();
+    }
+    $(".play-again").on("click", restart());
     
 }); /*END OF DOC READY */
 
