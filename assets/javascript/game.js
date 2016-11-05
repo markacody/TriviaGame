@@ -25,7 +25,58 @@ var count = 30;
 			$('.counter').html(count);
 		}
     } /*END countDown */
+    //start the countdown    
     countDown();
+
+    // Define variables to identify the current question, correct answer, and the end of the quiz
+    var currentQuestion = 0;
+    var correctAnswer = 0;
+    var endQuiz = false;
+    // Define an object with questions and answers. Use an array to contain answers and to identify the correct one.
+    var questions = [{
+            question: "What is the diameter of the earth, in miles?",
+            choices: ["7915", "8015.3", "10123.3", "15120"],
+            correctAnswer: 0
+        }, {
+            question: "What is the distance to the center of the earth, in miles?",
+            choices: ["4008", "5062", "3959", "6371"],
+            correctAnswer: 2
+        }, {
+            question: "What is the distance to the nearest star, in light years?",
+            choices: ["2", "4.22", "12.4", "100"],
+            correctAnswer: 1
+        }, {
+            question: "What is the name of the nearest star?",
+            choices: ["Alpha Omega", "Chiron", "The North Star", "Alpha Centauri"],
+            correctAnswer: 3
+        }, {
+            question: "What is the nearest galaxy?",
+            choices: ["Gynomastia", "Herculania", "Andromeda", "Achilles"],
+            correctAnswer: 2
+        }]; /*END OF questions OBJECT */
+    //display the first question
+    displayCurrentQuestion();
+    //define the display current questions function
+    function displayCurrentQuestion() {
+        
+        var question = questions[currentQuestion].question;
+      //  var questionClass = $(".question");
+        var questionClass = $(document).find(".question");
+        var allChoices = questions[currentQuestion].choices.length;
+
+        // Set the questionClass text to the current question
+        $(questionClass).text(question);
+
+        // Remove previous responses, if any
+        $(".responses").empty();
+
+        var choice;
+        for (i = 0; i < allChoices; i++) {
+            choice = questions[currentQuestion].choices[i];
+            $('<li><input type="radio" value=' + i + '/>' + choice + '</li>').appendTo(".responses");
+        }
+    }
+    
     // Define the timeout function
     // function timeOut(){    
     //     // display the timeout message.
@@ -51,33 +102,7 @@ var count = 30;
     // 	// after three seconds call for the next question
     
     // } 
-    // Define variables to identify the current question, correct answer, and the end of the quiz
-    var currentQuestion = 0;
-    var correctAnswer = 0;
-    var endQuiz = false;
-    // Define an object with questions and answers. Use an array to contain answers and to identify the correct one.
-    var questions = [{
-            question: "What is the diameter of the earth, in miles?",
-            choices: ["791.5", "8015.3", "10123.3", "15120"],
-            correctAnswer: 0
-        }, {
-            question: "What is the distance to the center of the earth, in miles?",
-            choices: ["4008", "5062", "3959", "6371"],
-            correctAnswer: 2
-        }, {
-            question: "What is the distance to the nearest star, in light years?",
-            choices: ["2", "4.22", "12.4", "100"],
-            correctAnswer: 1
-        }, {
-            question: "What is the name of the nearest star?",
-            choices: ["Alpha Omega", "Chiron", "The North Star", "Alpha Centauri"],
-            correctAnswer: 3
-        }, {
-            question: "What is the nearest galaxy?",
-            choices: ["Gynomastia", "Herculania", "Andromeda", "Achilles"],
-            correctAnswer: 2
-        }]; /*END OF questions OBJECT */
-
+    
 }); /*END OF DOC READY */
 
 
