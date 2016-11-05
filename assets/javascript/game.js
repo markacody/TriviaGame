@@ -24,10 +24,7 @@ var count = 30;
 		} else {
 			$('.counter').html(count);
 		}
-    } /*END countDown */
-    //start the countdown    
-    countDown();
-
+    } /*END define the countDown function */
     // Define variables to identify the current question, correct answer, and the end of the quiz
     var currentQuestion = 0;
     var correctAnswer = 0;
@@ -58,50 +55,58 @@ var count = 30;
     displayCurrentQuestion();
     //define the display current questions function
     function displayCurrentQuestion() {
-        
+        //create variables in memory to handle the question, where to put the question, and the choices
         var question = questions[currentQuestion].question;
-      //  var questionClass = $(".question");
-        var questionClass = $(document).find(".question");
+        var questionClass = $(".question");
         var allChoices = questions[currentQuestion].choices.length;
-
-        // Set the questionClass text to the current question
+        //Assign questionClass to the text of the current question
         $(questionClass).text(question);
-
         // Remove previous responses, if any
         $(".responses").empty();
-
+        $(".timeout").empty();
+        $(".correct").empty();
+        $(".incorrect").empty();
+        //use a loop to cycle through the array of choices create a list on the page 
         var choice;
         for (i = 0; i < allChoices; i++) {
             choice = questions[currentQuestion].choices[i];
             $('<li><input type="radio" value=' + i + '/>' + choice + '</li>').appendTo(".responses");
         }
+        //call the countdown function    
+        countDown();
     }
-    
     // Define the timeout function
-    // function timeOut(){    
-    //     // display the timeout message.
-
-    //    	// after three seconds call for the next question.
-
-    // }
-    // // Define the pose question function.
-    // function question(){
-    // 	// display next question in array.
-    // }
-    // // Define the correct answer function.
-    // function correct(){
-    // 	// display celebration
-
-    // 	// after three seconds call for the next question.
-
-    // }
-    // // Define the wrong answer function.
-    // function incorrect(){
-    // 	// display anti-celebration
-
-    // 	// after three seconds call for the next question
+    function timeOut(){    
+    // display the timeout message.
+        $(".timeout").html("<p>You timed out. The next question will begin in three seconds.</p>");
+    // after three seconds call for the next question.
+        currentQuestion++;
+        setTimeout(displayCurrentQuestion, 3000);
+        return;
+    }
+    // Define the correct answer function.
+    function correct(){
+    // display celebration
+         $(".correct").html("<p>That's right! The next question will begin in three seconds.</p>");
+    // after three seconds call for the next question.
+        currentQuestion++;
+        setTimeout(displayCurrentQuestion, 3000);
+        return;
+    }
+    // Define the wrong answer function.
+    function incorrect(){
+    // display anti-celebration
+        $(".incorrect").html("<p>That's incorrect. The next question will begin in three seconds.</p>");
+    // after three seconds call for the next question
+        currentQuestion++;
+        setTimeout(displayCurrentQuestion, 3000);
+        return;
+    }
+    // Listen to and judge the responses.
     
-    // } 
+    
+    // Detect and announce the end of the game.
+    
     
 }); /*END OF DOC READY */
 
